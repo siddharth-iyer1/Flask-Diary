@@ -4,9 +4,9 @@ from collections import defaultdict
 import string
 
 class User:
-    def __init__(self, pos_data, neg_data):
-        self.pos_data = pos_data        # Of type journal data
-        self.neg_data = neg_data
+    def __init__(self):
+        self.pos_data = any             # Will be of type journal_data
+        self.neg_data = any
 
     def get_freq_list(self, journal_type):
         if journal_type == "Positive":
@@ -19,7 +19,6 @@ class journal_data:                     # Create an object for positive and nega
     def __init__(self, journals):
         self.journals = journals
         self.mega_string = "".join(self.journals)
-        self.clean_mega_string
         self.freq_dict = {}
         self.freq_list = []
         self.stop_words = set(stopwords.words('english'))
@@ -31,7 +30,8 @@ class journal_data:                     # Create an object for positive and nega
 
     def clean_mega_string(self):
         no_punct = self.mega_string.translate(str.maketrans('', '', string.punctuation))
-        words = [word for word in words if word.lower() not in self.stop_words]
+        no_punct = no_punct.split()
+        words = [word for word in no_punct if word.lower() not in self.stop_words]
         self.mega_string = words
 
     def populate_dict(self):
@@ -74,3 +74,11 @@ class journal_data:                     # Create an object for positive and nega
         if largest != i:
             data[i], data[largest] = data[largest], data[i]
             self.helper_heapify(data, n, largest)
+
+
+# user1 = User()
+# user1.pos_data = journal_data([""])
+
+# print(user1.pos_data.mega_string)
+# user1.pos_data.clean_mega_string()
+# print(user1.pos_data.mega_string)
